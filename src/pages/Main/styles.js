@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled, { css, keyframes } from 'styled-components'
 
 
 export const Container = styled.div`
@@ -36,11 +36,21 @@ input{
 
 
 `
+//Criando animação de loading para o botão
+const animate = keyframes`
+  from{
+    transform: rotate(0deg);
+  }
 
+  to{
+    transform: rotate(360deg);
+  }
+`
 
-export const SubmitButton = styled.button.attrs({
-  type:'submit'
-})`
+export const SubmitButton = styled.button.attrs( props => ({
+  type:'submit',
+  disabled:props.Loading,
+}))`
 background-color: #0D2636;
 border: none;
 border-radius: 50%;
@@ -49,4 +59,15 @@ padding: 0 15px;
 display: flex;
 align-items: center;
 justify-content: center;
+
+&[disabled]{
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+${props => props.Loading && css`
+  svg{
+    animation: ${animate} 2s linear infinite;
+  }
+`}
 `
