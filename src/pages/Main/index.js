@@ -1,7 +1,8 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Container, Form, SubmitButton,List ,DeleteButoon} from "./styles";
 import { FaBars, FaGithub, FaPlus ,FaSpinner, FaTrash} from "react-icons/fa";
 import api from "../../services/api";
+import { ToastContainer, toast } from "react-toastify";
 
 
 export default function Main() {
@@ -17,7 +18,34 @@ export default function Main() {
     async function submit(){
       setLoading(true);
      try {
+      if(newRepo === ''){
+        console.log('object');
+
+        // throw new Error('Você precisa indicar um repositório!');
+        // return toast.warn('Você precisa indicar um repositório!')
+        <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+        />
+        {/* Same as */}
+        <ToastContainer />
+      }
+
       const response = await api.get(`repos/${newRepo}`)
+
+      const hasRepo = repositorios.find(repo => repo.name === newRepo);
+
+      if(hasRepo){
+        throw new Error('Repositório Duplicado!')
+      }
       
       const data = {
         name: response.data.full_name,
@@ -40,7 +68,7 @@ export default function Main() {
   const handleDelete = useCallback((repo) => {
     const find = repositorios.filter(r => r.name !== repo);
     setRepositorios(find);
-  },[repositorios])
+  },[repositorios]);
 
   return (
     <Container>
@@ -61,7 +89,7 @@ export default function Main() {
           value={newRepo}
         />
 
-        <SubmitButton Loading={loading ? 1 : 0}>
+        <SubmitButton loading={loading ? 1 : 0}>
           {loading ? (
             <FaSpinner size={14} color="#FFF" />
           ) : (
@@ -79,7 +107,7 @@ export default function Main() {
                </DeleteButoon>
                  {repo.name}
                  </span>
-               <a href="">
+               <a href="/">
                 <FaBars size={20}/>
                </a>
               </li>

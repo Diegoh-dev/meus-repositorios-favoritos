@@ -49,7 +49,7 @@ const animate = keyframes`
 
 export const SubmitButton = styled.button.attrs( props => ({
   type:'submit',
-  disabled:props.Loading,
+  disabled:props.loading,
 }))`
 background-color: #0D2636;
 border: none;
@@ -65,7 +65,7 @@ justify-content: center;
   opacity: 0.5;
 }
 
-${props => props.Loading && css`
+${props => props.loading && css`
   svg{
     animation: ${animate} 2s linear infinite;
   }
