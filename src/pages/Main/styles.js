@@ -71,3 +71,43 @@ ${props => props.Loading && css`
   }
 `}
 `
+
+
+export const List = styled.ul`
+
+list-style: nome;
+margin-top: 20px;
+
+li{
+  padding: 15px 0;
+  display: flex;
+  justify-content: space-between;
+
+  span{
+    display: flex;
+    gap:.5rem;
+    align-items: center;
+  }
+
+  //vai colocar a bordar em todos menos no primeiro.
+  & + li{
+    border-top: 1px solid #EEE;
+  }
+
+  a{
+    color: #0D2636;
+    text-decoration: none;
+  }
+}
+
+`
+
+export const DeleteButoon = styled.button.attrs({
+  type:'button',
+})`
+
+border:none;
+color:#C94848;
+background:none;
+
+`
