@@ -1,10 +1,12 @@
-
-
+import FnRoutes from "./routes";
+import GlobasStyles from './../src/styles/global'
+// https://api.github.com/
 function App() {
   return (
-    <div>
-    Projeto
-    </div>
+    <>
+    <GlobasStyles/>
+    <FnRoutes/>
+    </>
   );
 }
 
