@@ -51,6 +51,8 @@ export default function Main() {
         name: response.data.full_name,
   
       }
+
+      localStorage.setItem('@repos',JSON.stringify([...repositorios,data]))
   
       setRepositorios([...repositorios,data]);
       console.log(response.data);
@@ -67,8 +69,18 @@ export default function Main() {
 
   const handleDelete = useCallback((repo) => {
     const find = repositorios.filter(r => r.name !== repo);
+    localStorage.setItem('@repos',JSON.stringify(find));
     setRepositorios(find);
   },[repositorios]);
+
+  useEffect(()=>{
+    const getReposStorage = localStorage.getItem('@repos');
+
+    if(getReposStorage){
+      setRepositorios(JSON.parse(getReposStorage))
+    }
+    
+  },[])
 
   return (
     <Container>
