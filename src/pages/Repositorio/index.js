@@ -9,6 +9,9 @@ import {
 import { FaArrowLeft } from "react-icons/fa";
 import { useEffect, useRef, useState } from "react";
 import api from "../../services/api";
+import CircularProgress from '@mui/material/CircularProgress';
+
+
 export default function Repositorio() {
   const params = useParams();
 
@@ -20,11 +23,14 @@ export default function Repositorio() {
 
   const [status,setStatus] = useState('all')
   const [page,setPage] = useState(1);
-  
+const [loading, setLoading] = useState(false);
 
+  
+  console.log('page:',page);
 
 
   async function handleDadosRepo() {
+    setLoading(true)
     const [repositorios, issues] = await Promise.all([
       api.get(`repos/${nameRepo}`),
       api.get(`repos/${nameRepo}/issues`, {
@@ -38,6 +44,7 @@ export default function Repositorio() {
 
     setDadosRepositorios(repositorios?.data);
     setDadosIssuesUser(issues?.data);
+    setLoading(false)
   }
 
   useEffect(() => {
@@ -85,6 +92,7 @@ export default function Repositorio() {
         </button>
       </ContainerBtns>
 
+
       <ContainerListIssues>
         {dadosIssuesUser.map((issue) => (
           <li key={issue.id}>
@@ -126,7 +134,7 @@ export default function Repositorio() {
             borderRadius: "20px",
           }}
           onClick={() => {
-            setPage(page - 1);
+            setPage(page < 1 ? 1 : page - 1);
           }}
         >
           Voltar

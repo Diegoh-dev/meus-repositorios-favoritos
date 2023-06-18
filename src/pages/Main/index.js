@@ -22,22 +22,7 @@ export default function Main() {
 
             // throw new Error('Você precisa indicar um repositório!');
             // return toast.warn('Você precisa indicar um repositório!')
-            <ToastContainer
-              position="top-right"
-              autoClose={5000}
-              hideProgressBar={false}
-              newestOnTop={false}
-              closeOnClick
-              rtl={false}
-              pauseOnFocusLoss
-              draggable
-              pauseOnHover
-              theme="light"
-            />;
-            {
-              /* Same as */
-            }
-            <ToastContainer />;
+         return  toast.warning("Wow so easy!");
           }
 
           const response = await api.get(`repos/${newRepo}`);
