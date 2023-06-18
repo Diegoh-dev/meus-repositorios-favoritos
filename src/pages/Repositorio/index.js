@@ -19,12 +19,17 @@ export default function Repositorio() {
   console.log("dadosRepositorio:", dadosRepositorio);
   console.log("dadosIssuesUser:", dadosIssuesUser);
 
+  const [status,setStatus] = useState('all')
+
+  console.log('status:',status);
+
   async function handleDadosRepo() {
     const [repositorios, issues] = await Promise.all([
       api.get(`repos/${nameRepo}`),
       api.get(`repos/${nameRepo}/issues`, {
         params: {
-          state: "open",
+          state: status,
+          per_page:5,
         },
       }),
     ]);
@@ -35,7 +40,7 @@ export default function Repositorio() {
 
   useEffect(() => {
     handleDadosRepo();
-  }, []);
+  }, [status]);
 
   return (
     <Container>
@@ -55,9 +60,27 @@ export default function Repositorio() {
       </HeaderRepositorio>
 
       <ContainerBtns>
-        <button>Todas</button>
-        <button>Abertas</button>
-        <button>Fechadas</button>
+        <button
+          onClick={() => {
+            setStatus("all");
+          }}
+        >
+          Todas
+        </button>
+        <button
+          onClick={() => {
+            setStatus("open");
+          }}
+        >
+          Abertas
+        </button>
+        <button
+          onClick={() => {
+            setStatus("closed");
+          }}
+        >
+          Fechadas
+        </button>
       </ContainerBtns>
 
       <ContainerListIssues>
@@ -74,12 +97,11 @@ export default function Repositorio() {
                 <img src={issue.user?.avatar_url} alt={issue.user?.login} />
                 <h2>
                   <a href={issue.html_url}>{issue?.title}</a>
-                  <div style={{display:'flex'}}>
-                  {issue.labels.map((label) => (
-                    <span key={label.id}>{label.name}</span>
-                  ))}
+                  <div style={{ display: "flex" }}>
+                    {issue.labels.map((label) => (
+                      <span key={label.id}>{label.name}</span>
+                    ))}
                   </div>
-                 
                 </h2>
               </div>
 
@@ -88,6 +110,31 @@ export default function Repositorio() {
           </li>
         ))}
       </ContainerListIssues>
+
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
+        <button
+          style={{
+            padding: " 0.5rem",
+            borderRadius: "20px",
+          }}
+        >
+          Voltar
+        </button>
+        <button
+          style={{
+            padding: " 0.5rem",
+            borderRadius: "20px",
+          }}
+        >
+          Proximo
+        </button>
+      </div>
     </Container>
   );
 }

@@ -40,28 +40,6 @@ export const ContainerBtns = styled.div`
 export const ContainerListIssues = styled.ul`
   list-style: none;
 
-  /* li {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-
-   div{
-    display:flex;
-    align-items: center;
-    gap:20px;
-
-    img{
-      width: 50px;
-      border-radius: 50%;
-    }
-   }
-
-
-   p{
-    margin-left: 30px;
-   }
-  } */
-
   li {
     display: flex;
     flex-direction: column;
@@ -78,33 +56,33 @@ export const ContainerListIssues = styled.ul`
           border-radius: 50%;
         }
 
-        h2{
+        h2 {
           display: flex;
           flex-direction: column;
 
-          a{
+          a {
             text-decoration: none;
             color: #222;
             transition: 0.3s;
 
-            &:hover{
+            &:hover {
               color: #0071bd;
             }
           }
 
-          div{
-            span{
-            background-color: #222;
-            color: #FFF;
-            font-size: 12px;
-            padding: 4px 7px;
-            border-radius: 20px;
-          }
+          div {
+            span {
+              background-color: #222;
+              color: #fff;
+              font-size: 12px;
+              padding: 4px 7px;
+              border-radius: 20px;
+            }
           }
         }
       }
 
-      p{
+      p {
         margin-left: 70px;
       }
     }
