@@ -77,6 +77,31 @@ export const ContainerListIssues = styled.ul`
           width: 50px;
           border-radius: 50%;
         }
+
+        h2{
+          display: flex;
+          flex-direction: column;
+
+          a{
+            text-decoration: none;
+            color: #222;
+            transition: 0.3s;
+
+            &:hover{
+              color: #0071bd;
+            }
+          }
+
+          div{
+            span{
+            background-color: #222;
+            color: #FFF;
+            font-size: 12px;
+            padding: 4px 7px;
+            border-radius: 20px;
+          }
+          }
+        }
       }
 
       p{

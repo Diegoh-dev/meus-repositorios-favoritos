@@ -1,38 +1,41 @@
 import { Link, useParams } from "react-router-dom";
-import { BotaoRetorno, Container, ContainerBtns, ContainerListIssues, HeaderRepositorio } from "./styles";
-import {FaArrowLeft} from 'react-icons/fa'
+import {
+  BotaoRetorno,
+  Container,
+  ContainerBtns,
+  ContainerListIssues,
+  HeaderRepositorio,
+} from "./styles";
+import { FaArrowLeft } from "react-icons/fa";
 import { useEffect, useRef, useState } from "react";
 import api from "../../services/api";
 export default function Repositorio() {
-
   const params = useParams();
 
-  const nameRepo = params['*'];
+  const nameRepo = params["*"];
 
-  const [dadosRepositorio,setDadosRepositorios] = useState([]);
-  const [dadosIssuesUser,setDadosIssuesUser] = useState([]);
+  const [dadosRepositorio, setDadosRepositorios] = useState({});
+  const [dadosIssuesUser, setDadosIssuesUser] = useState([]);
+  console.log("dadosRepositorio:", dadosRepositorio);
+  console.log("dadosIssuesUser:", dadosIssuesUser);
 
+  async function handleDadosRepo() {
+    const [repositorios, issues] = await Promise.all([
+      api.get(`repos/${nameRepo}`),
+      api.get(`repos/${nameRepo}/issues`, {
+        params: {
+          state: "open",
+        },
+      }),
+    ]);
 
- async function handleDadosRepo(){
-  const response = await api.get(`repos/${nameRepo}`)
-  
-  setDadosRepositorios(response.data)
+    setDadosRepositorios(repositorios?.data);
+    setDadosIssuesUser(issues?.data);
+  }
 
-}
-
-async function getDadosIssues(){
-  // https://api.github.com/repos/facebook/react/issues/events
-  const response = await api.get(`repos/${nameRepo}/issues/events`)
-  setDadosIssuesUser(response.data);
-}
-console.log('issues:',dadosIssuesUser);
-
-  useEffect(()=>{
+  useEffect(() => {
     handleDadosRepo();
-    getDadosIssues()
-  },[]);
-
-
+  }, []);
 
   return (
     <Container>
@@ -43,10 +46,11 @@ console.log('issues:',dadosIssuesUser);
       <HeaderRepositorio>
         <div>
           <img
-            src={dadosRepositorio.organization?.avatar_url}
+            src={dadosRepositorio.owner?.avatar_url}
             alt={dadosRepositorio.owner?.login}
           />
-          <p>{dadosRepositorio.description}</p>
+          <h1>{dadosRepositorio?.name}</h1>
+          <p>{dadosRepositorio?.description}</p>
         </div>
       </HeaderRepositorio>
 
@@ -59,15 +63,27 @@ console.log('issues:',dadosIssuesUser);
       <ContainerListIssues>
         {dadosIssuesUser.map((issue) => (
           <li key={issue.id}>
-            <div>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                gap: "5px",
+              }}
+            >
               <div>
-                <img src={issue.actor?.avatar_url} alt="" />
-               <h2>
-               <a href="/">{issue.issue.title}</a>
-               </h2>
+                <img src={issue.user?.avatar_url} alt={issue.user?.login} />
+                <h2>
+                  <a href={issue.html_url}>{issue?.title}</a>
+                  <div style={{display:'flex'}}>
+                  {issue.labels.map((label) => (
+                    <span key={label.id}>{label.name}</span>
+                  ))}
+                  </div>
+                 
+                </h2>
               </div>
 
-              <p>{issue.actor.login}</p>
+              <p>{issue.user?.login}</p>
             </div>
           </li>
         ))}
