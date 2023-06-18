@@ -7,8 +7,8 @@ export default function FnRoutes() {
     <BrowserRouter>
       <Routes>
         <Route path="/" Component={Main} />
-        <Route path="/repositorio/*" Component={Repositorio} />
-        <Route path="*" element={<p>Path not resolved</p>} />
+        <Route path="repositorio/*" Component={Repositorio} />
+        {/* <Route path="*" element={<p>Path not resolved</p>} /> */}
       </Routes>
     </BrowserRouter>
   );
