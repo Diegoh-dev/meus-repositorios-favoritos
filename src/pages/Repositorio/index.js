@@ -16,12 +16,13 @@ export default function Repositorio() {
 
   const [dadosRepositorio, setDadosRepositorios] = useState({});
   const [dadosIssuesUser, setDadosIssuesUser] = useState([]);
-  console.log("dadosRepositorio:", dadosRepositorio);
   console.log("dadosIssuesUser:", dadosIssuesUser);
 
   const [status,setStatus] = useState('all')
+  const [page,setPage] = useState(1);
+  
 
-  console.log('status:',status);
+
 
   async function handleDadosRepo() {
     const [repositorios, issues] = await Promise.all([
@@ -30,6 +31,7 @@ export default function Repositorio() {
         params: {
           state: status,
           per_page:5,
+          page:page,
         },
       }),
     ]);
@@ -40,7 +42,7 @@ export default function Repositorio() {
 
   useEffect(() => {
     handleDadosRepo();
-  }, [status]);
+  }, [status,page]);
 
   return (
     <Container>
@@ -123,6 +125,9 @@ export default function Repositorio() {
             padding: " 0.5rem",
             borderRadius: "20px",
           }}
+          onClick={() => {
+            setPage(page - 1);
+          }}
         >
           Voltar
         </button>
@@ -130,6 +135,12 @@ export default function Repositorio() {
           style={{
             padding: " 0.5rem",
             borderRadius: "20px",
+          }}
+          // onClick={() => {
+          //   setPage(page + 5);
+          // }}
+          onClick={() => {
+            setPage(page + 1);
           }}
         >
           Proximo
